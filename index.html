@@ -1,6 +1,33 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>My Monthly Budget</title><link rel="stylesheet" href="styles.css"><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script><script defer src="app.js"></script></head><body>
-<section id="login" class="login"><div class="loginbox"><div class="logo">₱</div><p class="eyebrow">PERSONAL FINANCE</p><h1>My Monthly Budget</h1><p class="muted">Your money, clearly organized.</p><form id="loginForm"><label>Email<input id="email" type="email" required placeholder="you@example.com"></label><label>Password<input id="password" type="password" required minlength="6" placeholder="Password"></label><button class="primary">Sign in</button></form><p id="message"></p><button id="register" class="secondary">Create account</button></div></section>
-<div id="app" class="hidden"><aside><div class="brand"><span class="logo">₱</span> Budget<span class="cyan">Flow</span></div><p class="muted">PERSONAL WORKSPACE</p><button id="logout" class="secondary">Sign out</button></aside><main><header><div><p class="eyebrow">YOUR FINANCIAL SNAPSHOT</p><h1>Overview</h1></div><input id="month" type="month"></header>
-<div class="cards"><article><span>Total income</span><b id="income">₱0.00</b><small>Money coming in</small></article><article><span>Total expenses</span><b id="expense">₱0.00</b><small>Money going out</small></article><article><span>Savings deposits</span><b id="savings">₱0.00</b><small>Set aside this month</small></article><article class="featured"><span>Available balance</span><b id="balance">₱0.00</b><small>Income − expenses − savings</small></article></div>
-<div class="panels"><article><p class="eyebrow">CASH FLOW</p><h2>Monthly breakdown</h2><div class="bars"><div><i id="incomeBar"></i><span>Income</span></div><div><i id="expenseBar"></i><span>Expenses</span></div></div></article><article><p class="eyebrow">SAVINGS CHECK</p><h2>Potential surplus</h2><b id="surplus" class="surplus">₱0.00</b><p class="muted">Income minus expenses, before savings deposits.</p><div class="track"><i id="progress"></i></div><small id="progressText"></small></article></div>
-<section class="transactions"><header><div><p class="eyebrow">ACTIVITY</p><h2>Transactions</h2></div><button id="add" class="primary">＋ Add transaction</button></header><form id="txForm" class="form hidden"><input id="txid" type="hidden"><label>Type<select id="type"><option value="expense">Expense</option><option value="income">Income</option><option value="savings">Savings deposit</option></select></label><label>Title<input id="title" required placeholder="e.g. Groceries"></label><label>Amount (₱)<input id="amount" type="number" min=".01" step=".01" required></label><label>Category<input id="category" required placeholder="e.g. Food"></label><label>Date<input id="date" type="date" required></label><label>Notes (optional)<input id="notes"></label><button class="primary">Save transaction</button><button id="cancel" type="button" class="secondary">Cancel</button></form><div class="tablewrap"><table><thead><tr><th>NAME</th><th>CATEGORY</th><th>DATE</th><th>TYPE</th><th>AMOUNT</th><th></th></tr></thead><tbody id="rows"><tr><td colspan="6">No transactions this month yet.</td></tr></tbody></table></div></section><footer>Philippine Peso (₱) · Personal budget tracker</footer></main></div><div id="toast"></div></body></html>
+₱
+PERSONAL FINANCE
+My Monthly Budget
+Your money, clearly organized.
+UsernamePasswordSign in
+
+Create account
+₱ BudgetFlow
+PERSONAL WORKSPACE
+Sign out
+YOUR FINANCIAL SNAPSHOT
+Overview
+Total income₱0.00Money coming in
+Total expenses₱0.00Money going out
+Savings deposits₱0.00Set aside this month
+Available balance₱0.00Income − expenses − savings
+CASH FLOW
+Monthly breakdown
+Income
+Expenses
+SAVINGS CHECK
+Potential surplus
+₱0.00
+Income minus expenses, before savings deposits.
+
+ACTIVITY
+Transactions
+＋ Add transaction
+TypeExpenseIncomeSavings depositTitleAmount (₱)CategoryDateNotes (optional)Save transactionCancel
+NAME	CATEGORY	DATE	TYPE	AMOUNT	
+No transactions this month yet.					
+Philippine Peso (₱) · Personal budget tracker
+
