@@ -1,9 +1,9 @@
-// Replace these placeholder values with the firebaseConfig object from Firebase Console.
 window.firebaseConfig = {
-  apiKey: "PASTE_API_KEY_HERE",
-  authDomain: "PASTE_AUTH_DOMAIN_HERE",
-  projectId: "PASTE_PROJECT_ID_HERE",
-  storageBucket: "PASTE_STORAGE_BUCKET_HERE",
-  messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
-  appId: "PASTE_APP_ID_HERE"
+  apiKey: "AIzaSyApdpOWkE5j2-Lb1eXICAeS3YySXjBmEIQ",
+  authDomain: "my-monthly-budget-61484.firebaseapp.com",
+  projectId: "my-monthly-budget-61484",
+  storageBucket: "my-monthly-budget-61484.firebasestorage.app",
+  messagingSenderId: "495204376327",
+  appId: "1:495204376327:web:631decb1b76bc112612fa2",
+  measurementId: "G-THHDHE3ME0"
 };
