@@ -1,0 +1,22 @@
+(() => {
+const $=id=>document.getElementById(id), today=new Date().toISOString().slice(0,10), peso=n=>new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(n||0);
+let auth,db,user,items=[],month=today.slice(0,7),stop;
+function note(s){$('message').textContent=s} function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2500)}
+function render(){let a=items.filter(x=>(x.date||'').slice(0,7)===month),sum=t=>a.filter(x=>x.type===t).reduce((v,x)=>v+Number(x.amount||0),0),inc=sum('income'),exp=sum('expense'),sav=sum('savings'),sur=inc-exp;
+$('income').textContent=peso(inc);$('expense').textContent=peso(exp);$('savings').textContent=peso(sav);$('balance').textContent=peso(sur-sav);$('surplus').textContent=peso(sur);
+let max=Math.max(inc,exp,1);$('incomeBar').style.height=Math.max(4,inc/max*100)+'%';$('expenseBar').style.height=Math.max(4,exp/max*100)+'%';$('progress').style.width=(sur>0?Math.min(100,sav/sur*100):0)+'%';$('progressText').textContent=sur>0?Math.round(sav/sur*100)+'% of potential surplus recorded as savings':'Add income and expenses to see your surplus.';
+$('rows').innerHTML='';if(!a.length){$('rows').innerHTML='<tr><td colspan="6">No transactions this month yet.</td></tr>';return}
+a.forEach(x=>{let tr=document.createElement('tr');[x.title,x.category,x.date,x.type==='savings'?'Savings':x.type[0].toUpperCase()+x.type.slice(1)].forEach(v=>{let td=document.createElement('td');td.textContent=v||'—';tr.append(td)});let amt=document.createElement('td');amt.textContent=(x.type==='expense'?'−':'+')+peso(x.amount);amt.className=x.type;tr.append(amt);let act=document.createElement('td'),ed=document.createElement('button'),del=document.createElement('button');ed.textContent='Edit';ed.onclick=()=>edit(x);del.textContent='Delete';del.onclick=()=>remove(x.id);act.append(ed,del);tr.append(act);$('rows').append(tr)})}
+function reset(){$('txForm').reset();$('txid').value='';$('date').value=today;$('txForm').classList.add('hidden')}
+function edit(x){$('txid').value=x.id;['type','title','amount','category','date','notes'].forEach(k=>$(k).value=x[k]||'');$('txForm').classList.remove('hidden')}
+async function remove(id){if(confirm('Delete this transaction?'))await db.collection('users').doc(user.uid).collection('transactions').doc(id).delete()}
+window.addEventListener('DOMContentLoaded',()=>{
+try{if(!window.firebaseConfig||window.firebaseConfig.apiKey.includes('PASTE_'))throw Error('Firebase configuration needs to be added first.');firebase.initializeApp(window.firebaseConfig);auth=firebase.auth();db=firebase.firestore();auth.onAuthStateChanged(u=>{user=u;$('login').classList.toggle('hidden',!!u);$('app').classList.toggle('hidden',!u);if(u){if(stop)stop();stop=db.collection('users').doc(u.uid).collection('transactions').orderBy('date','desc').onSnapshot(s=>{items=s.docs.map(d=>({id:d.id,...d.data()}));render()},e=>toast(e.message))}else if(stop){stop();stop=null}})}catch(e){note(e.message)}
+$('loginForm').onsubmit=async e=>{e.preventDefault();try{await auth.signInWithEmailAndPassword($('email').value.trim(),$('password').value);note('')}catch(x){note(x.message)}};
+$('register').onclick=async()=>{try{await auth.createUserWithEmailAndPassword($('email').value.trim(),$('password').value);note('')}catch(x){note(x.message)}};
+$('logout').onclick=()=>auth.signOut();$('month').value=month;$('month').onchange=e=>{month=e.target.value;render()};
+$('add').onclick=()=>{$('txForm').classList.remove('hidden');$('date').value=today};$('cancel').onclick=reset;
+$('txForm').onsubmit=async e=>{e.preventDefault();let amount=Number($('amount').value);if(!(amount>0))return toast('Enter an amount above zero.');let data={type:$('type').value,title:$('title').value.trim(),amount,category:$('category').value.trim(),date:$('date').value,notes:$('notes').value.trim(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()},ref=db.collection('users').doc(user.uid).collection('transactions'),id=$('txid').value;try{if(id)await ref.doc(id).update(data);else await ref.add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()});reset();toast('Transaction saved.')}catch(x){toast(x.message)}};
+$('date').value=today;
+});
+})();
